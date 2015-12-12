@@ -1,0 +1,2 @@
+# dany
+Macro registri
