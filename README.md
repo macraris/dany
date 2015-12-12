@@ -2,13 +2,12 @@
 ****************
 ``` vb
 Sub registri()
-Attribute registri.VB_ProcData.VB_Invoke_Func = " \n14"
 '
 '***********************************************************************************
-'~~Questa semplice macro esegue operazioni basilari quali selezioni dinamici di
-'~~intervallo di dati,eliminazione di intervallo di dati (range) vuoti,
-'~~qualche formattazione qua e la con uso di condizionale if...then , cicli For...Next
-'***************************************************************************************
+'~~Questa semplice macro esegue operazioni basilari quali selezioni dinamici di     *
+'~~intervallo di dati,eliminazione di intervallo di dati (range) vuoti,               *
+'~~qualche formattazione qua e la con uso di condizionale if...then , cicli For...Next  *
+'*****************************************************************************************
 
 Dim infos As Variant
     infos = MsgBox("Elaborazione Registri..." & vbNewLine & vbNewLine & _
