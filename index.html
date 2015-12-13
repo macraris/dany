@@ -2,7 +2,7 @@
 <html lang="en-us">
   <head>
     <meta charset="UTF-8">
-    <title>Macro Excel per Registri  by macraris</title>
+    <title>Macro Excel  Registri  by macraris</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
@@ -11,24 +11,145 @@
   </head>
   <body>
     <section class="page-header">
-      <h1 class="project-name">Macro Excel per Registri </h1>
-      <h2 class="project-tagline">Macro registri</h2>
+      <h1 class="project-name">Macro Excel  Registri </h1>
+      <h2 class="project-tagline">BY Macr@ris</h2>
       <a href="https://github.com/macraris/dany" class="btn">View on GitHub</a>
       <a href="https://github.com/macraris/dany/zipball/master" class="btn">Download .zip</a>
       <a href="https://github.com/macraris/dany/tarball/master" class="btn">Download .tar.gz</a>
     </section>
 
     <section class="main-content">
-      <h3>
-<a id="guida-descrittiva-macro-excel-per-registri" class="anchor" href="#guida-descrittiva-macro-excel-per-registri" aria-hidden="true"><span class="octicon octicon-link"></span></a>Guida descrittiva Macro Excel per registri.</h3>
+      <h2>
+<a id="macro-registri-x-dany" class="anchor" href="#macro-registri-x-dany" aria-hidden="true"><span class="octicon octicon-link"></span></a>Macro Registri x Dany</h2>
+
+<hr>
+
+<p>Questa semplice macro esegue operazioni basilari quali selezioni dinamici di intervallo di dati,
+eliminazione di intervallo di dati (range) vuoti, qualche formattazione qua e la' con uso di condizionale
+<code>if...then</code> , cicli <code>For...Next</code>,<code>offset</code> e tante altre piccole interessanti nozioni per programmare in Excel</p>
+
+<hr>
 
 <h3>
-<a id="assistenza-e-contatto" class="anchor" href="#assistenza-e-contatto" aria-hidden="true"><span class="octicon octicon-link"></span></a>Assistenza e contatto</h3>
+<a id="step-1-richiesta-esecuzione-della-macro" class="anchor" href="#step-1-richiesta-esecuzione-della-macro" aria-hidden="true"><span class="octicon octicon-link"></span></a>Step #1 Richiesta esecuzione della macro</h3>
 
-<p>Hai riscontrato qualche problema? Contattami <a href="https://help.github.com/pages">documentation</a> or <a href="https://github.com/contact">contact support</a> and we’ll help you sort it out.</p>
+<div class="highlight highlight-source-vbnet"><pre><span class="pl-c1">Sub</span> <span class="pl-en">registri</span>() <span class="pl-c">'Nome macro utilizzato per lancio  automatico</span>
+<span class="pl-c">'               </span>
+<span class="pl-k">Dim</span> infos <span class="pl-k">As </span>Variant
+    infos <span class="pl-k">=</span> MsgBox(<span class="pl-s">"Elaborazione Registri..."</span> <span class="pl-k">&amp;</span> vbNewLine <span class="pl-k">&amp;</span> vbNewLine <span class="pl-k">&amp;</span> <span class="pl-k">_</span>
+    <span class="pl-s">"Qui per sbaglio --&gt;  Click 'NO'"</span>, <span class="pl-k">_</span>
+                    vbYesNo <span class="pl-k">+</span> vbInformation <span class="pl-k">+</span> vbDefaultButton2, <span class="pl-s">"Macr@ris Registri"</span>)
+
+<span class="pl-k">If</span> infos <span class="pl-k">=</span> vbNo <span class="pl-k">Then</span>
+    <span class="pl-k">Exit Sub</span>
+    <span class="pl-k">End If</span>
+<span class="pl-c">'</span></pre></div>
+
+<hr>
+
+<h3>
+<a id="step-2-semplice-controllo-iniziale--prima-parte-intervalli" class="anchor" href="#step-2-semplice-controllo-iniziale--prima-parte-intervalli" aria-hidden="true"><span class="octicon octicon-link"></span></a>Step #2 Semplice controllo iniziale + prima parte intervalli</h3>
+
+<div class="highlight highlight-source-vbnet"><pre><span class="pl-c">''''</span>
+Application<span class="pl-k">.</span>StatusBar <span class="pl-k">=</span> <span class="pl-s">"Goditi un Caffe' mentre lavoro per Te...."</span>
+
+Application<span class="pl-k">.</span>ScreenUpdating <span class="pl-k">=</span> <span class="pl-c1">False</span>
+<span class="pl-k">On Error</span> <span class="pl-k">GoTo</span> ErrorHandler
+
+<span class="pl-c">'Step #A Cancella le prime 13 righe</span>
+Rows(<span class="pl-s">"1:13"</span>)<span class="pl-k">.</span>Delete shift<span class="pl-k">:=</span>xlUp
+
+ <span class="pl-c">'#B Elimina intervalli di dati vuoti nel primo quadrante</span>
+ <span class="pl-k">Dim</span> lCel <span class="pl-k">As </span><span class="pl-c1">Integer</span> <span class="pl-c">'definizione variabile per avere numero ultima riga di un range</span>
+
+   lCel <span class="pl-k">=</span> [B3]<span class="pl-k">.</span>End(xlDown)<span class="pl-k">.</span>Row
+
+    Range(<span class="pl-s">"A1:A"</span> <span class="pl-k">&amp;</span> lCel <span class="pl-k">&amp;</span> <span class="pl-s">",C1:F"</span> <span class="pl-k">&amp;</span> lCel <span class="pl-k">&amp;</span> <span class="pl-s">",H1:I"</span> <span class="pl-k">&amp;</span> lCel <span class="pl-k">&amp;</span> <span class="pl-s">",K1:N"</span> <span class="pl-k">&amp;</span> lCel <span class="pl-k">&amp;</span> <span class="pl-s">",P1:P"</span> <span class="pl-k">&amp;</span> lCel <span class="pl-k">&amp;</span> <span class="pl-k">_</span>
+          <span class="pl-s">",R1:S"</span> <span class="pl-k">&amp;</span> lCel <span class="pl-k">&amp;</span> <span class="pl-s">",V1:V"</span> <span class="pl-k">&amp;</span> lCel <span class="pl-k">&amp;</span> <span class="pl-s">",X1:Y"</span> <span class="pl-k">&amp;</span> lCel) <span class="pl-k">_</span>
+    <span class="pl-k">.</span>Delete shift<span class="pl-k">:=</span>xlToLeft
+<span class="pl-c">''''</span></pre></div>
+
+<hr>
+
+<h3>
+<a id="step-3" class="anchor" href="#step-3" aria-hidden="true"><span class="octicon octicon-link"></span></a>Step #3</h3>
+
+<div class="highlight highlight-source-vbnet"><pre><span class="pl-c">'#C  ''area secondo quadrante dati da non considerare quindi cancellare</span>
+lCel <span class="pl-k">=</span> Cells<span class="pl-k">.</span>Find(What<span class="pl-k">:=</span><span class="pl-s">"INCASSO IVA"</span>, After<span class="pl-k">:=</span>[A1], LookIn<span class="pl-k">:=</span>xlFormulas, <span class="pl-k">_</span>
+        LookAt<span class="pl-k">:=</span>xlPart, SearchOrder<span class="pl-k">:=</span>xlByRows, SearchDirection<span class="pl-k">:=</span>xlNext, <span class="pl-k">_</span>
+        MatchCase<span class="pl-k">:=</span><span class="pl-c1">True</span>, SearchFormat<span class="pl-k">:=</span><span class="pl-c1">False</span>)<span class="pl-k">.</span>Row <span class="pl-c">'activate</span>
+
+Range(Cells(lCel, <span class="pl-s">"A"</span>), Cells(lCel, <span class="pl-s">"A"</span>)<span class="pl-k">.</span>Offset(<span class="pl-c1">12</span>, <span class="pl-c1">0</span>))<span class="pl-k">.</span>EntireRow<span class="pl-k">.</span>Delete shift<span class="pl-k">:=</span>xlUp
+<span class="pl-c">'''</span></pre></div>
+
+<hr>
+
+<h3>
+<a id="step-4-lavoro-sui-quadri-di-subtotali" class="anchor" href="#step-4-lavoro-sui-quadri-di-subtotali" aria-hidden="true"><span class="octicon octicon-link"></span></a>Step #4 Lavoro sui quadri di subtotali</h3>
+
+<div class="highlight highlight-source-vbnet"><pre><span class="pl-c">'#D  'Quadrante Dati di subtotale con formattazione numeri e dati negativi in positivi</span>
+
+  <span class="pl-k">Dim</span> pCel <span class="pl-k">As </span><span class="pl-c1">Integer</span> <span class="pl-c">''variabile che conta il numero posizione prima riga range</span>
+    pCel <span class="pl-k">=</span> Cells<span class="pl-k">.</span>Find(What<span class="pl-k">:=</span><span class="pl-s">"ContoIVA"</span>, After<span class="pl-k">:=</span>[A1], LookIn<span class="pl-k">:=</span>xlFormulas, <span class="pl-k">_</span>
+        LookAt<span class="pl-k">:=</span>xlPart, SearchOrder<span class="pl-k">:=</span>xlByRows, SearchDirection<span class="pl-k">:=</span>xlNext, <span class="pl-k">_</span>
+        MatchCase<span class="pl-k">:=</span><span class="pl-c1">True</span>, SearchFormat<span class="pl-k">:=</span><span class="pl-c1">False</span>)<span class="pl-k">.</span>Row
+    lCel <span class="pl-k">=</span> Cells<span class="pl-k">.</span>Find(What<span class="pl-k">:=</span><span class="pl-s">"Società 0221"</span>, After<span class="pl-k">:=</span>[A1], LookIn<span class="pl-k">:=</span>xlFormulas, <span class="pl-k">_</span>
+        LookAt<span class="pl-k">:=</span>xlPart, SearchOrder<span class="pl-k">:=</span>xlByRows, SearchDirection<span class="pl-k">:=</span>xlNext, <span class="pl-k">_</span>
+        MatchCase<span class="pl-k">:=</span><span class="pl-c1">True</span>, SearchFormat<span class="pl-k">:=</span><span class="pl-c1">False</span>)<span class="pl-k">.</span>Row
+ <span class="pl-c">''cancellazione intervalli non necessari con spostamento celle a sinistra</span>
+
+ Range(<span class="pl-s">"A"</span> <span class="pl-k">&amp;</span> pCel <span class="pl-k">&amp;</span> <span class="pl-s">":A"</span> <span class="pl-k">&amp;</span> lCel <span class="pl-k">&amp;</span> <span class="pl-s">",B"</span> <span class="pl-k">&amp;</span> pCel <span class="pl-k">&amp;</span> <span class="pl-s">":C"</span> <span class="pl-k">&amp;</span> lCel <span class="pl-k">&amp;</span> <span class="pl-s">",E"</span> <span class="pl-k">&amp;</span> pCel <span class="pl-k">&amp;</span> <span class="pl-s">":E"</span> <span class="pl-k">&amp;</span> lCel <span class="pl-k">&amp;</span> <span class="pl-k">_</span>
+        <span class="pl-s">",G"</span> <span class="pl-k">&amp;</span> pCel <span class="pl-k">&amp;</span> <span class="pl-s">":G"</span> <span class="pl-k">&amp;</span> lCel <span class="pl-k">&amp;</span> <span class="pl-s">",I"</span> <span class="pl-k">&amp;</span> pCel <span class="pl-k">&amp;</span> <span class="pl-s">":I"</span> <span class="pl-k">&amp;</span> lCel <span class="pl-k">&amp;</span> <span class="pl-s">",K"</span> <span class="pl-k">&amp;</span> pCel <span class="pl-k">&amp;</span> <span class="pl-s">":R"</span> <span class="pl-k">&amp;</span> lCel <span class="pl-k">&amp;</span> <span class="pl-k">_</span>
+        <span class="pl-s">",T"</span> <span class="pl-k">&amp;</span> pCel <span class="pl-k">&amp;</span> <span class="pl-s">":U"</span> <span class="pl-k">&amp;</span> lCel <span class="pl-k">&amp;</span> <span class="pl-s">",W"</span> <span class="pl-k">&amp;</span> pCel <span class="pl-k">&amp;</span> <span class="pl-s">":W"</span> <span class="pl-k">&amp;</span> lCel) <span class="pl-k">_</span>
+  <span class="pl-k">.</span>Delete shift<span class="pl-k">:=</span>xlToLeft
+
+<span class="pl-c">''''''</span>
+<span class="pl-c">'#E  Transformazione e formattazione numeri negativi in positivi</span>
+Range(Cells(pCel, <span class="pl-s">"E"</span>), Cells(lCel, <span class="pl-s">"G"</span>))<span class="pl-k">.</span><span class="pl-k">Select</span>
+    <span class="pl-k">Dim</span> rng <span class="pl-k">As </span>Range <span class="pl-c">'Definisce variabile per ciclo For Each...next</span>
+
+    <span class="pl-k">For</span> <span class="pl-k">Each</span> rng <span class="pl-k">In</span> Selection
+        <span class="pl-k">If</span> IsNumeric(rng) <span class="pl-k">And</span> <span class="pl-k">Not</span> IsEmpty(rng) <span class="pl-k">Then</span>
+        rng<span class="pl-k">.</span>Value <span class="pl-k">=</span> rng <span class="pl-k">*</span> <span class="pl-k">-</span><span class="pl-c1">1</span>
+        rng<span class="pl-k">.</span>NumberFormat <span class="pl-k">=</span> <span class="pl-s">"#,##0.00"</span>
+    <span class="pl-k">End If</span>
+
+    <span class="pl-k">Next</span>
+
+  <span class="pl-c">'#F  'Cancella ultime righe in quanto non necessarie</span>
+
+  pCel <span class="pl-k">=</span> lCel <span class="pl-k">+</span> <span class="pl-c1">1</span>
+  lCel <span class="pl-k">=</span> [A1]<span class="pl-k">.</span>SpecialCells(xlCellTypeLastCell)<span class="pl-k">.</span>Row
+Range(Cells(pCel, <span class="pl-s">"A"</span>), Cells(lCel, <span class="pl-s">"A"</span>))<span class="pl-k">.</span>EntireRow<span class="pl-k">.</span>Delete shift<span class="pl-k">:=</span>xlUp
+
+Cells<span class="pl-k">.</span>EntireColumn<span class="pl-k">.</span>AutoFit
+[A1]<span class="pl-k">.</span><span class="pl-k">Select</span>
+
+ Application<span class="pl-k">.</span>StatusBar <span class="pl-k">=</span> <span class="pl-s">""</span>
+ Application<span class="pl-k">.</span>ScreenUpdating <span class="pl-k">=</span> <span class="pl-c1">True</span>
+ <span class="pl-k">Exit Sub</span>
+
+ErrorHandler:
+MsgBox <span class="pl-s">"Interruzione Macro Causa Errore in Registri"</span> <span class="pl-k">&amp;</span> vbNewLine <span class="pl-k">&amp;</span> <span class="pl-s">"Contattare Macr@ris"</span> <span class="pl-k">_</span>
+ <span class="pl-k">&amp;</span> vbNewLine <span class="pl-k">&amp;</span> vbCrLf <span class="pl-k">&amp;</span> <span class="pl-s">"Error number:  # "</span> <span class="pl-k">&amp;</span> Err<span class="pl-k">.</span>Number <span class="pl-k">&amp;</span> vbNewLine <span class="pl-k">&amp;</span> <span class="pl-k">_</span>
+  <span class="pl-s">"Description:==&gt; "</span> <span class="pl-k">&amp;</span> Err<span class="pl-k">.</span>Description, vbCritical, <span class="pl-s">"Macr@ris \Error Macro"</span>
+
+Application<span class="pl-k">.</span>ScreenUpdating <span class="pl-k">=</span> <span class="pl-c1">True</span>
+Application<span class="pl-k">.</span>DisplayAlerts <span class="pl-k">=</span> <span class="pl-c1">True</span>
+Application<span class="pl-k">.</span>StatusBar <span class="pl-k">=</span> <span class="pl-s">""</span>
+
+<span class="pl-k">End Sub</span></pre></div>
+
+<hr>
+
+<h2>
+<a id="assistenza-e-contatto" class="anchor" href="#assistenza-e-contatto" aria-hidden="true"><span class="octicon octicon-link"></span></a>Assistenza e Contatto</h2>
+
+<p>Hai riscontrato qualche problema !? il Tipo qui sara' contento di darti una mano
+<img src="https://upload.wikimedia.org/wikipedia/commons/8/8f/Scatophaga_stercoraria_macro_Luc_Viatour.jpg" alt="Aiuto"></p>
 
       <footer class="site-footer">
-        <span class="site-footer-owner"><a href="https://github.com/macraris/dany">Macro Excel per Registri </a> is maintained by <a href="https://github.com/macraris">macraris</a>.</span>
+        <span class="site-footer-owner"><a href="https://github.com/macraris/dany">Macro Excel  Registri </a> is maintained by <a href="https://github.com/macraris">macraris</a>.</span>
 
         <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
       </footer>
