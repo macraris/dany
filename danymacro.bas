@@ -4,10 +4,10 @@ Private Sub registri()
 Attribute registri.VB_ProcData.VB_Invoke_Func = " \n14"
 '
 '***********************************************************************************
-'~~Questa semplice macro esegue operazioni basilari quali selezioni dinamici di
-'~~intervallo di dati,eliminazione di intervallo di dati (range) vuoti,
-'~~qualche formattazione qua e la con uso di condizionale if...then , cicli For...Next
-'***************************************************************************************
+'~~Questa semplice macro esegue operazioni basilari quali selezioni dinamici di     *
+'~~intervallo di dati,eliminazione di intervallo di dati (range) vuoti,              *
+'~~qualche formattazione qua e la con uso di condizionale if...then , cicli For...Next *
+'****************************************************************************************
 
 On Error GoTo ErrorHandler
 
@@ -137,9 +137,11 @@ On Error GoTo ErrorHandler
       ' found.
 
 '@ Add New Workbook
+'''---@ Definizione di Variabili per la sub routine
     Dim newBook As Workbook
     Dim StFile As String
     Dim stPathDest As String
+ Dim sht As Worksheet, shtCount As Integer
     
         stPathDest = "C:\Users\kwemarit\Desktop\REG\elaborato\"
        StFile = stPathDest & "regLavorato_" & Format(Now, "dd-mmm-yy hh-mm-ss") & ".xlsx"
@@ -150,7 +152,7 @@ On Error GoTo ErrorHandler
     With newBook
         .Title = "Registri"
         .Subject = "Fiscalita'"
-        '.SaveAs Filename:="Allsales.xls"
+        shtCount = .Sheets.Count
         .SaveAs StFile
     End With
     Application.DisplayAlerts = True
@@ -160,7 +162,7 @@ On Error GoTo ErrorHandler
 
 
 Workbooks.Open Filename:=stPath & Sep & myFile
-   Dim sht As Worksheet
+  
 ''-------@@@
 ''invocazione del modulo registri
 registri
@@ -169,10 +171,10 @@ registri
 
 On Error GoTo ErrorHandler
  Set sht = ActiveSheet
-sht.Move After:=newBook.Worksheets(Sheets.Count + 1)
-        
-         
+sht.Move After:=newBook.Sheets(shtCount)
+                           shtCount = shtCount + 1
          myFile = Dir()
+         
       Loop
 
 Application.DisplayAlerts = False
