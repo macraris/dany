@@ -1,33 +1,19 @@
 Attribute VB_Name = "wMacroregis"
 
-Sub registri()
-
+Private Sub registri()
+'
 '***********************************************************************************
 '~~Questa semplice macro esegue operazioni basilari quali selezioni dinamici di
 '~~intervallo di dati,eliminazione di intervallo di dati (range) vuoti,
 '~~qualche formattazione qua e la con uso di condizionale if...then , cicli For...Next
 '***************************************************************************************
 
-Dim infos As Variant
-    infos = MsgBox("Elaborazione Registri..." & vbNewLine & vbNewLine & _
-    "Qui per sbaglio -->  Click 'NO'", _
-                    vbYesNo + vbInformation + vbDefaultButton2, "Macr@ris Registri")
-                    
-If infos = vbNo Then
-Exit Sub
-End If
-
-Application.StatusBar = "Goditi un Caffe' mentre lavoro per Te...."
-Application.ScreenUpdating = False
-Application.StatusBar = "Goditi un Caffe' mentre lavoro per Te...."
-Application.ScreenUpdating = False
-
 On Error GoTo ErrorHandler
 
 '#A
 Rows("1:13").Delete shift:=xlUp
-    
-'#B
+       
+ '#B
  Dim lCel As Integer 'definizione variabile per avere numero ultima riga di un range
     
    lCel = [B3].End(xlDown).Row
@@ -36,7 +22,7 @@ Rows("1:13").Delete shift:=xlUp
           ",R1:S" & lCel & ",V1:V" & lCel & ",X1:Y" & lCel) _
     .Delete shift:=xlToLeft
 ''''
- 
+
 '#C  ''area secondo quadrante dati da non considerare quindi cancellare
 lCel = Cells.Find(What:="INCASSO IVA", After:=[A1], LookIn:=xlFormulas, _
         LookAt:=xlPart, SearchOrder:=xlByRows, SearchDirection:=xlNext, _
@@ -75,6 +61,7 @@ Range(Cells(pCel, "E"), Cells(lCel, "G")).Select
     Next
      
   '#F  'Cancella ultime righe in quanto non necessarie
+  
   pCel = lCel + 1
   lCel = [A1].SpecialCells(xlCellTypeLastCell).Row
 Range(Cells(pCel, "A"), Cells(lCel, "A")).EntireRow.Delete shift:=xlUp
@@ -82,8 +69,6 @@ Range(Cells(pCel, "A"), Cells(lCel, "A")).EntireRow.Delete shift:=xlUp
 Cells.EntireColumn.AutoFit
 [A1].Select
 
- Application.StatusBar = ""
- Application.ScreenUpdating = True
  Exit Sub
  
 ErrorHandler:
@@ -96,4 +81,133 @@ Application.DisplayAlerts = True
 Application.StatusBar = ""
 
 End Sub
+
+
+Sub loopFile()
+   ' Sets up the variable "MyFile" to be each file in the directory
+      ' This example looks for all the files that have an .xls extension.
+      ' This can be changed to whatever extension is needed. Also, this
+      ' macro searches the current directory. This can be changed to any
+      ' directory.
+
+Dim infos As Variant
+    infos = MsgBox("Elaborazione Registri..." & vbNewLine & vbNewLine & _
+    "Qui per sbaglio -->  Click 'NO'", _
+                    vbYesNo + vbInformation + vbDefaultButton2, "Macr@ris Registri")
+
+If infos = vbNo Then
+    Exit Sub
+    End If
+
+'''
+Application.StatusBar = "Goditi un Caffe' mentre lavoro per Te...."
+
+Application.ScreenUpdating = False
+
+On Error GoTo ErrorHandler
+
+      ' Test for Windows or Macintosh platform. Make the directory request.
+      Dim myFile As String, Sep As String
+      
+      Sep = Application.PathSeparator
+
+      If Sep = "\" Then
+         ' Windows platform search syntax.
+         'MyFile = Dir(CurDir() & Sep & "*.xls")
+         stPath = "C:\Users\kwemarit\Desktop\REG"
+            myFile = Dir(stPath & Sep & "*.xls*")
+      Else
+
+         ' Macintosh platform search syntax.
+         myFile = Dir("", MacID("XLS5"))
+      End If
+
+    ''''@''''''''''''''''''''
+     '''' CHECK IF FOLDER IS EMPTY
+    If myFile = "" Then
+            MsgBox "Nessun File presente in " & stPath & vbNewLine & _
+            "Cartella --> 'REG'" & vbNewLine & _
+             vbNewLine & "Caricare la cartella e rilanciare Macro." _
+        , vbExclamation, "Errore!RegistriLoopFile. By @ris"
+      Exit Sub
+      End If
+      
+      ' Starts the loop, which will continue until there are no more files
+      ' found.
+
+'@ Add New Workbook
+'''---@ Definizione di Variabili per la sub routine
+    Dim newBook As Workbook
+    Dim StFile As String
+    Dim stPathDest As String
+ Dim sht As Worksheet, shtCount As Integer
+    
+        stPathDest = "C:\Users\kwemarit\Desktop\REG\elaborato\"
+       StFile = stPathDest & "regLavorato_" & Format(Now, "dd-mmm-yy hh-mm-ss") & ".xlsx"
+  
+  Application.DisplayAlerts = False
+  
+    Set newBook = Workbooks.Add
+    With newBook
+        .Title = "Registri"
+        .Subject = "Fiscalita'"
+        shtCount = .Sheets.Count
+        .SaveAs StFile
+    End With
+    Application.DisplayAlerts = True
+    
+      
+      Do While myFile <> "" ' And InStr(1, myFile, "ATT")
+
+
+Workbooks.Open Filename:=stPath & Sep & myFile
+  
+''-------@@@
+''invocazione del modulo registri
+registri
+
+''-------###
+
+On Error GoTo ErrorHandler
+ Set sht = ActiveSheet
+sht.Move After:=newBook.Sheets(shtCount)
+                           shtCount = shtCount + 1
+         myFile = Dir()
+         
+      Loop
+
+Application.DisplayAlerts = False
+                        With newBook
+                            .Sheets("sheet1").Delete
+                            .Sheets("sheet2").Delete
+                            .SaveAs StFile
+                       End With
+                Application.DisplayAlerts = True
+
+'@ DELETING ALL FILES IN CURRENT FOLDER
+
+Dim MyFile_KillAll As String
+    MyFile_KillAll = Dir(stPath & Sep & "*.*")
+
+Do While MyFile_KillAll <> ""
+    Kill stPath & Sep & MyFile_KillAll
+    MyFile_KillAll = Dir()
+Loop
+
+
+Application.StatusBar = ""
+ Application.ScreenUpdating = True
+Exit Sub
+
+ErrorHandler:
+MsgBox "Interruzione Macro Causa Errore in loopFile" & vbNewLine & "Contattare Macr@ris" & vbNewLine & _
+    vbCrLf & "Error number:  # " & Err.Number & vbNewLine & _
+      "Description:==> " & Err.Description, vbCritical, "Macr@ris \Error Macro"
+ 
+Application.ScreenUpdating = True
+Application.DisplayAlerts = True
+Application.StatusBar = ""
+
+End Sub
+
 
