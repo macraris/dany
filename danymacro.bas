@@ -17,8 +17,13 @@ Rows("1:13").Delete shift:=xlUp
  '#B
  Dim lCel As Integer 'definizione variabile per avere numero ultima riga di un range
     
+    'check nel caso ci sia solo una riga nel primo quadrante di range
+If isempty(cells(4,"B")) then
+       lCel = [B3].Row
+Else
    lCel = [B3].End(xlDown).Row
-   
+End If
+
     Range("A1:A" & lCel & ",C1:F" & lCel & ",H1:I" & lCel & ",K1:N" & lCel & ",P1:P" & lCel & _
           ",R1:S" & lCel & ",V1:V" & lCel & ",X1:Y" & lCel) _
     .Delete shift:=xlToLeft
@@ -38,7 +43,7 @@ Range(Cells(lCel, "A"), Cells(lCel, "A").Offset(12, 0)).EntireRow.Delete shift:=
     pCel = Cells.Find(What:="ContoIVA", After:=[A1], LookIn:=xlFormulas, _
         LookAt:=xlPart, SearchOrder:=xlByRows, SearchDirection:=xlNext, _
         MatchCase:=True, SearchFormat:=False).Row
-    lCel = Cells.Find(What:="Societ‡ 0221", After:=[A1], LookIn:=xlFormulas, _
+    lCel = Cells.Find(What:="Societ√† 0221", After:=[A1], LookIn:=xlFormulas, _
         LookAt:=xlPart, SearchOrder:=xlByRows, SearchDirection:=xlNext, _
         MatchCase:=True, SearchFormat:=False).Row
  ''cancellazione intervalli non necessari con spostamento celle a sinistra
