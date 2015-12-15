@@ -2,208 +2,98 @@ Attribute VB_Name = "wMacroregis"
 
 Sub registri()
 
-'
-' registri Macro
-'
+'***********************************************************************************
+'~~Questa semplice macro esegue operazioni basilari quali selezioni dinamici di
+'~~intervallo di dati,eliminazione di intervallo di dati (range) vuoti,
+'~~qualche formattazione qua e la con uso di condizionale if...then , cicli For...Next
+'***************************************************************************************
 
-'
-    Range("A1:A21").Select
-    Selection.Delete Shift:=xlToLeft
-    Rows("1:11").Select
-    Selection.Delete Shift:=xlUp
-    Range("B1:E10").Select
-    Selection.Delete Shift:=xlToLeft
-    Range("C1:D10").Select
-    Selection.Delete Shift:=xlToLeft
-    Range("D1:G9").Select
-    Selection.Delete Shift:=xlToLeft
-    Range("E1:E9").Select
-    Selection.Delete Shift:=xlToLeft
-    Range("F1:G9").Select
-    Selection.Delete Shift:=xlToLeft
-    Range("H1:H9").Select
-    Selection.Delete Shift:=xlToLeft
-    Range("I1:J9").Select
-    Selection.Delete Shift:=xlToLeft
-    Rows("11:21").Select
-    Selection.Delete Shift:=xlUp
-    Range("A11:B11").Select
-    Selection.Delete Shift:=xlUp
-    Range("A13:C35").Select
-    Selection.Delete Shift:=xlToLeft
-    Range("B13:B34").Select
-    Selection.Delete Shift:=xlToLeft
-    Range("C13:C22").Select
-    Selection.Delete Shift:=xlToLeft
-    Range("D13:D23").Select
-    Selection.Delete Shift:=xlToLeft
-    Range("E13:L22").Select
-    Selection.Delete Shift:=xlToLeft
-    Range("F13:G22").Select
-    Selection.Delete Shift:=xlToLeft
-    Range("G13:G22").Select
-    Selection.Delete Shift:=xlToLeft
-    Range("E24:N24").Select
-    Selection.Delete Shift:=xlToLeft
-    Range("F24:G24").Select
-    Selection.Delete Shift:=xlToLeft
-    Range("G24").Select
-    Selection.Delete Shift:=xlToLeft
-    Rows("27:38").Select
-    Selection.Delete Shift:=xlUp
-    Cells.Select
-    Cells.EntireColumn.AutoFit
-    Range("F5:G9").Select
-    Selection.NumberFormat = "00000000000"
-    Range("C5:C9").Select
-    Selection.NumberFormat = "0"
-End Sub
-Sub registri1()
+Dim infos As Variant
+    infos = MsgBox("Elaborazione Registri..." & vbNewLine & vbNewLine & _
+    "Qui per sbaglio -->  Click 'NO'", _
+                    vbYesNo + vbInformation + vbDefaultButton2, "Macr@ris Registri")
+                    
+If infos = vbNo Then
+Exit Sub
+End If
 
-' registri1 Macro
-'
+Application.StatusBar = "Goditi un Caffe' mentre lavoro per Te...."
+Application.ScreenUpdating = False
+Application.StatusBar = "Goditi un Caffe' mentre lavoro per Te...."
+Application.ScreenUpdating = False
 
-'
-    ActiveCell.Rows("1:13").EntireRow.Select
-    Selection.Delete Shift:=xlUp
-  
-        
-    
-  [b1].Select
-  Selection.End(xlDown).Select
-  
-  
-    Selection.End(xlDown).Select
-    Range(Selection, Selection.End(xlUp).Offset(-2, 0)).Select
-    Selection.Offset(0, -1).Select
-    
-'    ActiveCell.Offset(0, -1).Range("A1:A23").Select
+On Error GoTo ErrorHandler
 
-    Selection.Delete Shift:=xlToLeft
-    Range(Selection, Selection.Offset(0, 3)).Select
-    Selection.Offset(0, 1).Select
-'
-'    ActiveCell.Offset(0, 1).Range("A1:D23").Select
-'    Application.CutCopyMode = False
-    Selection.Delete Shift:=xlToLeft
+'#A
+Rows("1:13").Delete shift:=xlUp
     
+'#B
+ Dim lCel As Integer 'definizione variabile per avere numero ultima riga di un range
     
-    Range("b1").Select
-    [b1].Select
-  Selection.End(xlDown).Select
-  
-  
-    Selection.End(xlDown).Select
-    Range(Selection, Selection.End(xlUp).Offset(-2, 0)).Select
-    
-    Selection.Offset(0, 1).Select
-    Range(Selection, Selection.Offset(0, 1)).Delete Shift:=xlToLeft
+   lCel = [B3].End(xlDown).Row
    
-   
-   'Da riferimento
-'       Range("c1").Select
-'    Range(Selection, Selection.End(xlDown)).Select
-'    Range(Selection, Selection.End(xlDown)).Select
-     Range(Selection, Selection.Offset(0, 3)).Select
-    Selection.Offset(0, 1).Select
-     Selection.Delete Shift:=xlToLeft
-  '" finisce riferimento
-  
-  'range D
-  Range("d1").Select
-  Selection.End(xlDown).Select
-  
-    Selection.End(xlDown).Select
-    Range(Selection, Selection.End(xlUp).Offset(-2, 0)).Select
-    Selection.Offset(0, 1).Select
-     Selection.Delete Shift:=xlToLeft
- 'end rng d
- 'Range E
-'fin qui funge
-Selection.Offset(0, 1).Select
-
-     Range(Selection, Selection.Offset(0, 1)).Select
-    Selection.Offset(0, 1).Select
-     Selection.Delete Shift:=xlToLeft
- 'End rng E
+    Range("A1:A" & lCel & ",C1:F" & lCel & ",H1:I" & lCel & ",K1:N" & lCel & ",P1:P" & lCel & _
+          ",R1:S" & lCel & ",V1:V" & lCel & ",X1:Y" & lCel) _
+    .Delete shift:=xlToLeft
+''''
  
- 'Range g
- Range("G1").Select
-    Range(Selection, Selection.End(xlDown)).Select
-    Range(Selection, Selection.End(xlDown)).Select
-    Selection.Offset(0, 1).Select
-     Selection.Delete Shift:=xlToLeft
- 'End rng G
- 
-  'Range i
- Range("h1").Select
-    Range(Selection, Selection.End(xlDown)).Select
-    Range(Selection, Selection.End(xlDown)).Select
-    Range(Selection, Selection.Offset(0, 1)).Select
-    Selection.Offset(0, 1).Select
-     Selection.Delete Shift:=xlToLeft
- 'End rng i
-  
-   
- 
- 
- 
-    ActiveCell.Offset(0, -8).Range("A1").Select
-    Selection.End(xlDown).Select
-    Selection.End(xlDown).Select
-   Selection.End(xlDown).Select
-   Range(Selection, Selection.Offset(12, 0)).Select
-   Selection.EntireRow.Delete Shift:=xlUp
-   
-  
-  Range("D1").Select
-
-    Selection.End(xlDown).Select
-    Selection.End(xlDown).Select
-    Selection.End(xlDown).Select
-  Dim ci, endLine As String
-  ci = ActiveCell.Address
-  
-    
-    Cells.Find(What:="società 0221", After:=ActiveCell, LookIn:=xlFormulas, _
+'#C  ''area secondo quadrante dati da non considerare quindi cancellare
+lCel = Cells.Find(What:="INCASSO IVA", After:=[A1], LookIn:=xlFormulas, _
         LookAt:=xlPart, SearchOrder:=xlByRows, SearchDirection:=xlNext, _
-        MatchCase:=False, SearchFormat:=False).Activate
-        
-endLine = ActiveCell.Address
-
-Range(ci & ":" & endLine).Select
-Range(Selection, Selection.Offset(0, -2)).Select
-Selection.Offset(0, -1).Delete Shift:=xlToLeft
-
-Range(ci & ":" & endLine).Offset(0, -2).Select
-    Selection.Delete Shift:=xlToLeft
-    
-    Selection.Offset(0, 1).Delete Shift:=xlToLeft
-    
-  'conto iva
-   Selection.Offset(0, 1).Delete Shift:=xlToLeft
-
-'significato
- Selection.Offset(0, 1).Select
- Range(Selection, Selection.Offset(0, 8)).Delete Shift:=xlToLeft
+        MatchCase:=True, SearchFormat:=False).Row 'activate
  
- Range(ci & ":" & endLine).Offset(0, 2).Select
- Range(Selection, Selection.Offset(0, 1)).Delete Shift:=xlToLeft
+Range(Cells(lCel, "A"), Cells(lCel, "A").Offset(12, 0)).EntireRow.Delete shift:=xlUp
+'''
+
+'#D  'Quadrante Dati di subtotale con formattazione numeri e dati negativi in positivi
+   
+  Dim pCel As Integer ''definizione della variabile che conterra' il numero posizione prima riga del range
+    pCel = Cells.Find(What:="ContoIVA", After:=[A1], LookIn:=xlFormulas, _
+        LookAt:=xlPart, SearchOrder:=xlByRows, SearchDirection:=xlNext, _
+        MatchCase:=True, SearchFormat:=False).Row
+    lCel = Cells.Find(What:="Società 0221", After:=[A1], LookIn:=xlFormulas, _
+        LookAt:=xlPart, SearchOrder:=xlByRows, SearchDirection:=xlNext, _
+        MatchCase:=True, SearchFormat:=False).Row
+ ''cancellazione intervalli non necessari con spostamento celle a sinistra
+    
+ Range("A" & pCel & ":A" & lCel & ",B" & pCel & ":C" & lCel & ",E" & pCel & ":E" & lCel & _
+        ",G" & pCel & ":G" & lCel & ",I" & pCel & ":I" & lCel & ",K" & pCel & ":R" & lCel & _
+        ",T" & pCel & ":U" & lCel & ",W" & pCel & ":W" & lCel) _
+  .Delete shift:=xlToLeft
+
+''''''
+'#E  Transformazione e formattazione numeri negativi in positivi
+Range(Cells(pCel, "E"), Cells(lCel, "G")).Select
+    Dim rng As Range 'Definisce variabile per ciclo For Each...next
+    
+    For Each rng In Selection
+        If IsNumeric(rng) And Not IsEmpty(rng) Then
+        rng.Value = rng * -1
+        rng.NumberFormat = "#,##0.00"
+    End If
+    
+    Next
+     
+  '#F  'Cancella ultime righe in quanto non necessarie
+  pCel = lCel + 1
+  lCel = [A1].SpecialCells(xlCellTypeLastCell).Row
+Range(Cells(pCel, "A"), Cells(lCel, "A")).EntireRow.Delete shift:=xlUp
+
+Cells.EntireColumn.AutoFit
+[A1].Select
+
+ Application.StatusBar = ""
+ Application.ScreenUpdating = True
+ Exit Sub
  
- 'colonna g
-Range(ci & ":" & endLine).Offset(0, 3).Delete Shift:=xlToLeft
+ErrorHandler:
+MsgBox "Interruzione Macro Causa Errore in Registri" & vbNewLine & "Contattare Macr@ris" & vbNewLine & _
+    vbCrLf & "Error number:  # " & Err.Number & vbNewLine & _
+      "Description:==> " & Err.Description, vbCritical, "Macr@ris \Error Macro"
  
-Range(endLine).Select
-    Selection.End(xlDown).Select
-    
-    
-    ActiveCell.Range("A1:A25").Select
-    Selection.EntireRow.Delete
-    
-    ActiveCell.Columns("A:O").EntireColumn.Select
-    ActiveCell.Columns("A:O").EntireColumn.EntireColumn.AutoFit
-  
-      [a1].Select
-    ActiveWorkbook.Save
+Application.ScreenUpdating = True
+Application.DisplayAlerts = True
+Application.StatusBar = ""
+
 End Sub
 
